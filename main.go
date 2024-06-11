@@ -49,7 +49,6 @@ func encode(w http.ResponseWriter, r *http.Request) {
 	}
 
 	q.DisableBorder = true
-	//q.symbol =
 
 	png, err = q.PNG(size)
 
@@ -66,7 +65,7 @@ func encode(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/encode", encode)
+	mux.HandleFunc("/create", encode)
 
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{"*"},
@@ -80,13 +79,13 @@ func main() {
 	port := os.Getenv("PORT")
 
 	if port == "" {
-		port = "8080"
+		port = "8000"
 	}
 
-	addr := fmt.Sprintf(":%s", port)
+	addr := fmt.Sprintf("0.0.0.0:%s", port)
 	log.Printf("listening on addr %s", addr)
 
-	if err := http.ListenAndServe(":8080", handler); err != nil {
+	if err := http.ListenAndServe(addr, handler); err != nil {
 		panic(err)
 	}
 }
