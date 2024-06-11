@@ -48,7 +48,16 @@ func encode(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	q.DisableBorder = true
+	Disableborder := true
+
+	ab := r.URL.Query().Get("border")
+	if ab == "true" {
+		Disableborder = false
+	}
+
+	q.DisableBorder = Disableborder
+	//q.BackgroundColor = color.Black
+	//q.ForegroundColor = color.Opaque
 
 	png, err = q.PNG(size)
 
